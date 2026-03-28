@@ -109,7 +109,7 @@ const Navbar = () => {
           href="https://github.com/ahassh1"
           target="_blank"
           rel="noopener noreferrer"
-          className="bg-blue-700 flex items-center gap-2 text-white rounded-md px-4 py-2 cursor-pointer hover:bg-blue-800 transition"
+          className="bg-blue-700 flex items-center gap-2 text-white rounded-md px-3 py-2 cursor-pointer hover:bg-blue-800 transition"
         >
           <FaGithub /> Contribute
         </a>
