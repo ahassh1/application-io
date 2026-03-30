@@ -1,5 +1,6 @@
 import React from "react";
 import AppCard from "./AppCard";
+import { Link } from "react-router";
 
 const AppContainer = ({ appsData }) => {
   const ratingAvg = appsData
@@ -21,6 +22,13 @@ const AppContainer = ({ appsData }) => {
           <AppCard key={app.id} app={app} />
         ))}
       </div>
+      <Link to="/apps">
+        <div className="text-center pt-4 md:pt-7">
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded cursor-pointer">
+            Show All
+          </button>
+        </div>
+      </Link>
     </div>
   );
 };
