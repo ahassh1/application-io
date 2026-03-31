@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLoaderData, useParams } from "react-router";
 import { FaDownload, FaStar, FaRegHeart } from "react-icons/fa";
 import RatingsChart from "./RatingChart";
+import { toast } from "react-toastify";
+import { getFromLocalStorage, saveToLocalStorage } from "../utils/localStroage";
 
 const AppDetails = () => {
   const appsData = useLoaderData();
@@ -12,10 +14,21 @@ const AppDetails = () => {
     if (num >= 1000) return (num / 1000).toFixed(0) + "k";
     return num.toString();
   };
+  const [installed, setInstalled] = useState(() => {
+    const installApps = getFromLocalStorage();
+    return installApps.includes(app.id);
+  });
+
   const { description } = app;
 
+  const handleInstallBtn = (id) => {
+    saveToLocalStorage(id);
+    setInstalled(true);
+    toast("App Installed successfully");
+  };
+
   return (
-    <div className="bg-gradient-to-b from-gray-100 to-gray-50 py-16 min-h-screen">
+    <div className="bg-gray-100 py-8 md:py-12">
       <div className="w-11/12 mx-auto px-6">
         <div className="lg:flex lg:items-center lg:gap-12 bg-white shadow-2xl rounded-3xl p-8 hover:shadow-3xl transition-all duration-300">
           <div className="lg:w-1/3 h-64 lg:h-80 flex items-center justify-center rounded-2xl overflow-hidden shadow-xl bg-white">
@@ -73,8 +86,12 @@ const AppDetails = () => {
               </div>
             </div>
 
-            <button className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-xl font-bold transition-all duration-300 cursor-pointer">
-              Install Now ({app.size}MB)
+            <button
+              disabled={installed}
+              onClick={() => handleInstallBtn(app.id)}
+              className="btn bg-[#00D390] text-white"
+            >
+              {installed ? "Installed" : `Install Now (${app.size}MB)`}
             </button>
           </div>
         </div>

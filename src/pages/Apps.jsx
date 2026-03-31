@@ -1,15 +1,21 @@
 import React, { useState } from "react";
 import { useLoaderData } from "react-router";
 import AppCard from "../components/AppCard";
+import ErrorPage from "./ErrorPage";
 
 const Apps = () => {
   const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
   const appsData = useLoaderData();
   const search = appsData.filter((app) =>
     app.title.toLowerCase().includes(input.toLowerCase()),
   );
   const handleSearch = (e) => {
-    setInput(e.target.value);
+    setLoading(true);
+    setTimeout(() => {
+      setInput(e.target.value);
+      setLoading(false);
+    }, 2000);
   };
   return (
     <div className="bg-gray-50 ">
@@ -50,11 +56,17 @@ const Apps = () => {
           </label>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
-          {search.map((app) => (
-            <AppCard key={app.id} app={app}></AppCard>
-          ))}
-        </div>
+        {loading ? (
+          <Loader />
+        ) : search.length === 0 ? (
+          <ErrorPage />
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
+            {search.map((app) => (
+              <AppCard key={app.id} app={app} />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
